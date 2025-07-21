@@ -10,6 +10,8 @@ from .dataset import (
     YOLODataset,
     YOLOMultiModalDataset,
 )
+# MTL project: Register MTLDataset for multi-task learning
+from ultralytics.data.mtl_dataset import MTLDataset
 
 __all__ = (
     "BaseDataset",

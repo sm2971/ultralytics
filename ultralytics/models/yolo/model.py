@@ -17,6 +17,11 @@ from ultralytics.nn.tasks import (
     YOLOESegModel,
 )
 from ultralytics.utils import ROOT, YAML
+# MTL project: Import MTL model, trainer, validator, and predictor
+from .mtl.mtl_model import YOLOSegLandmarkMTL
+from .mtl.mtl_trainer import MTLTrainer
+from .mtl.mtl_validator import MTLValidator
+from .mtl.mtl_predictor import MTLPredictor
 
 
 class YOLO(Model):
@@ -117,6 +122,12 @@ class YOLO(Model):
                 "trainer": yolo.obb.OBBTrainer,
                 "validator": yolo.obb.OBBValidator,
                 "predictor": yolo.obb.OBBPredictor,
+            },
+            "mtl": {
+                "model": YOLOSegLandmarkMTL,
+                "trainer": MTLTrainer,
+                "validator": MTLValidator,
+                "predictor": MTLPredictor,
             },
         }
 

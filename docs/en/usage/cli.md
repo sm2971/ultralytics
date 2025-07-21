@@ -29,7 +29,7 @@ The Ultralytics command line interface (CLI) provides a straightforward way to u
         ```
 
         Where:
-        - `TASK` (optional) is one of [detect, segment, classify, pose, obb]
+        - `TASK` (optional) is one of [detect, segment, classify, pose, obb, mtl]
         - `MODE` (required) is one of [train, val, predict, export, track, benchmark]
         - `ARGS` (optional) are any number of custom `arg=value` pairs like `imgsz=320` that override defaults.
 
@@ -82,7 +82,7 @@ The Ultralytics command line interface (CLI) provides a straightforward way to u
 
 Where:
 
-- `TASK` (optional) is one of `[detect, segment, classify, pose, obb]`. If not explicitly passed, YOLO will attempt to infer the `TASK` from the model type.
+- `TASK` (optional) is one of `[detect, segment, classify, pose, obb, mtl]`. If not explicitly passed, YOLO will attempt to infer the `TASK` from the model type.
 - `MODE` (required) is one of `[train, val, predict, export, track, benchmark]`
 - `ARGS` (optional) are any number of custom `arg=value` pairs like `imgsz=320` that override defaults. For a full list of available `ARGS`, see the [Configuration](cfg.md) page and `defaults.yaml`.
 
@@ -344,3 +344,25 @@ yolo solutions count source="path/to/video.mp4"
 ```
 
 These solutions require minimal configuration and provide immediate functionality for common computer vision tasks. To see all available solutions, run `yolo solutions help`. Each solution has specific parameters that can be customized to fit your needs.
+
+<!-- MTL project: Multi-task learning (MTL) CLI usage -->
+## Multi-Task Learning (MTL) Task
+
+The MTL task allows you to jointly train and evaluate models for both segmentation and anatomical landmark detection using a shared backbone and combined loss.
+
+**Note:** The segmentation head uses YOLOv11 when you specify a v11 config (e.g., 'yolo11n-seg.yaml').
+
+### Example Usage
+
+```bash
+yolo task=mtl mode=train model=ultralytics/models/yolo/mtl/mtl_model.py data=path/to/mtl_data.yaml epochs=100 batch=16 imgsz=640
+```
+
+- `task=mtl`: Selects the multi-task learning pipeline.
+- `model`: Path to the MTL model definition.
+- `data`: Path to your MTL dataset config.
+- `epochs`, `batch`, `imgsz`: Standard training options.
+
+### Output
+- Segmentation masks and landmark coordinates are predicted for each image.
+- Metrics for both tasks are reported during validation.

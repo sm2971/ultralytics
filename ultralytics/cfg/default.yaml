@@ -125,3 +125,13 @@ cfg: # (str, optional) for overriding defaults.yaml
 
 # Tracker settings ------------------------------------------------------------------------------------------------------
 tracker: botsort.yaml # (str) tracker type, choices=[botsort.yaml, bytetrack.yaml]
+
+# MTL project: Multi-task learning (MTL) task options
+mtl:
+  model: ultralytics/models/yolo/mtl/mtl_model.py  # Path to MTL model
+  data:  # Path to MTL dataset config
+  seg_weight: 1.0  # Segmentation loss weight
+  lm_weight: 1.0   # Landmark loss weight
+  epochs: 100
+  batch: 16
+  imgsz: 640

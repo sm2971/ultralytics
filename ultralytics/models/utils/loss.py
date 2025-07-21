@@ -474,3 +474,17 @@ class RTDETRDetectionLoss(DETRLoss):
             else:
                 dn_match_indices.append((torch.zeros([0], dtype=torch.long), torch.zeros([0], dtype=torch.long)))
         return dn_match_indices
+
+# MTL project: Combined loss for segmentation and landmark detection
+class MTLLoss(nn.Module):
+    def __init__(self, seg_loss_fn, lm_loss_fn, seg_weight=1.0, lm_weight=1.0):
+        super().__init__()
+        self.seg_loss_fn = seg_loss_fn
+        self.lm_loss_fn = lm_loss_fn
+        self.seg_weight = seg_weight
+        self.lm_weight = lm_weight
+
+    def forward(self, preds, targets):
+        seg_loss = self.seg_loss_fn(preds['segmentation'], targets['segmentation'])
+        lm_loss = self.lm_loss_fn(preds['landmarks'], targets['landmarks'])
+        return self.seg_weight * seg_loss + self.lm_weight * lm_loss

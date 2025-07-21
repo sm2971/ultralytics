@@ -1,0 +1,40 @@
+# Ultralytics 🚀 AGPL-3.0 License - https://ultralytics.com/license
+
+# COCO8-MTL dataset for multi-task learning (segmentation + landmark detection)
+# This is a combined dataset configuration for MTL training
+# Documentation: https://docs.ultralytics.com/datasets/detect/coco/
+# Example usage: yolo mtl train data=coco8-mtl.yaml model=yolo11n-mtl.pt
+
+# Train/val/test sets
+path: ../datasets/coco8  # dataset root dir
+train: train2017.txt  # train images (relative to 'path')
+val: val2017.txt  # val images (relative to 'path')
+
+# Classes (same as COCO for segmentation)
+names:
+  0: person
+  1: bicycle
+  2: car
+  3: motorcycle
+  4: airplane
+  5: bus
+  6: train
+  7: truck
+
+# MTL-specific configuration
+mtl:
+  # Segmentation settings
+  seg:
+    masks: True  # Enable segmentation masks
+    overlap_mask: True  # Merge masks during training
+    mask_ratio: 4  # Mask downsample ratio
+  
+  # Landmark detection settings
+  landmarks:
+    num_landmarks: 19  # Number of landmarks per object
+    sigma: 2  # Gaussian sigma for landmark heatmaps
+    use_heatmaps: True  # Use heatmap representation
+    
+  # Loss weights
+  seg_weight: 1.0  # Segmentation loss weight
+  lm_weight: 1.0   # Landmark loss weight 
